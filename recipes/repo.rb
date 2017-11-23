@@ -10,14 +10,18 @@ when 'debian', 'ubuntu'
     key 'https://packagecloud.io/gpg.key'
   end
 
-  apt_preference 'collectd' do
-    pin          'release l=librato-collectd'
-    pin_priority '1001'
-  end
+  # apt_preference was added with Chef Client 13.3
+  # https://docs.chef.io/resource_apt_preference.html
+  if Chef::VERSION.to_f >= 13.3
+    apt_preference 'collectd' do
+      pin          'release l=librato-collectd'
+      pin_priority '1001'
+    end
 
-  apt_preference 'collectd-core' do
-    pin          'release l=librato-collectd'
-    pin_priority '1001'
+    apt_preference 'collectd-core' do
+      pin          'release l=librato-collectd'
+      pin_priority '1001'
+    end
   end
 
 when 'centos', 'redhat', 'amazon'
